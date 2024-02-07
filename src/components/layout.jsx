@@ -1,5 +1,5 @@
 import "../assets/style/App.css"
-
+import logo from "../assets/images/2.png"
 
 
 function Layout({children}) {
@@ -7,7 +7,9 @@ function Layout({children}) {
         <>
             <nav className="navbar">
                 <div className="webName">
-                    <a href="#">ANIMAL FEED</a>
+                    <a href="#">
+                        <img src={logo} width={"100%"} height={"100%"} alt="" />
+                    </a>
                 </div>
                 <ul className="pages">
                     <li>
@@ -28,7 +30,7 @@ function Layout({children}) {
             {children}
 
             <footer>
-                <small>Animal Feed, 2024. All right reserved.</small>
+                <small>© Animal Feed, 2024. All right reserved.</small>
             </footer>
         </>
      );

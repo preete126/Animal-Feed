@@ -2,15 +2,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 25px 100px;
+  margin: 0px 100px;
 }
 .webName{
  font-size: 30px;
  line-height: 24px;
  font-weight: 900;
+ width: 200px;
+ height: 130px;
 }
 .webName > a{
   color: #0B5D1E;
+ height: 100%;
 }
 ul{
   list-style: none;

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 
 function Layout({ children }) {
-    const [style, setStyle] = useState(false)
+    const [style, setStyle] = useState(true)
 
     const toggle = ()=>{
         setStyle(!style)

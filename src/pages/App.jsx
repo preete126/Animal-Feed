@@ -51,7 +51,6 @@ function App() {
   const dropdown = () => {
     const change = display == "none" ? "block" : "none"
     setDisplay(change)
-    console.log(display);
   }
 
   const checkedUpdate = (item, index) => {

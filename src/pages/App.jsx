@@ -39,6 +39,29 @@ function App() {
       }
     ]
   )
+  const [isInputVisible, setIsInputVisible] = useState(Array(animalInfo.current.length).fill(false));
+  const [purpose, setPurpose] = useState([])
+  const [display, setDisplay] = useState("none")
+  const [actions, setActions] = useState({
+    purpose: "Select feeding purpose",
+    age: "Select animal age"
+  })
+
+
+  const dropdown = () => {
+    const change = display == "none" ? "block" : "none"
+    setDisplay(change)
+    console.log(display);
+  }
+
+  const checkedUpdate = (item, index) => {
+
+    setIsInputVisible(prev => prev.map(() => false))
+    setIsInputVisible(prev => prev.map((visible, i) => i === index ? true : visible))
+    setPurpose(item.purpose)
+    setActions({ ...actions, purpose: "Select feeding purpose" })
+    setDisplay("none")
+  }
 
 
 
@@ -56,15 +79,19 @@ function App() {
             </div>
           </div>
         </main>
+        <div className='greenBg'></div>
         <main className='phase1'>
           <div className='selectTarget'>Select Target Animal</div>
           <section className='col-iteration'>
             {
               animalInfo.current.map((item, index) =>
                 <div key={index}>
-                  <div className='animalPhase'>
+                  <div className='animalPhase' style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
                     <img src={item.image} alt="" />
-                    <button className='selectbtn'>{item.name}</button>
+                    <button onClick={() => checkedUpdate(item, index)} className='selectbtn'>{item.name}</button>
+                    {
+                      isInputVisible[index] && <input checked onChange={() => ("")} className='animalcheck' name='animal' type="checkbox" />
+                    }
                   </div>
                 </div>
               )
@@ -73,19 +100,32 @@ function App() {
         </main>
         <main className='optionsbox'>
           <section style={{ lineHeight: "50px", width: "100%" }}>
-            <div className='optiontext'>Feeding Purpose</div>
-            <div>
-              <button className='optionbtn'>
-                <span>Select feeding purpose</span>
+            <div className='optiontext'>Feeding Purpose<span style={{ color: "red" }}>*</span></div>
+            <div style={{ position: "relative" }}>
+              <button onClick={dropdown} className='optionbtn'>
+                <span>{actions.purpose}</span>
                 <img src={arrowdown} alt="" />
               </button>
+
+              <div style={{ display: display }} className='dropdownItem'>
+                {
+                  purpose.length !== 0 ? purpose.map((item, index) =>
+                    <button key={index} onClick={() => setActions({ ...actions, purpose: item })} className='dropdownbtn'>{item}</button>
+                  )
+                    :
+                    <div style={{ textAlign: "center", fontSize: "20px" }}>No animal picked yet!</div>
+                }
+              </div>
+
+
+
             </div>
           </section>
           <section style={{ lineHeight: "50px", width: "100%" }}>
             <div className='optiontext'>Animal Age</div>
             <div>
               <button className='optionbtn'>
-                <span>Select animal age</span>
+                <span>{actions.age}</span>
                 <img src={arrowdown} alt="" />
               </button>
             </div>
@@ -113,7 +153,7 @@ function App() {
           <table className='detailsTable'>
             <thead>
               <tr>
-                <th>S/N</th>
+                <th>options</th>
                 <th>Food</th>
                 <th>Total Protein</th>
                 <th>Total Energy</th>
@@ -122,35 +162,45 @@ function App() {
             </thead>
             <tbody>
               <tr>
-                <td>1</td>
+                <td>
+                  <input type="checkbox" name="" id="feedsOption" />
+                </td>
                 <td>Pasture</td>
                 <td>0.57</td>
                 <td>0.18</td>
                 <td>0.36</td>
               </tr>
-              <tr style={{backgroundColor:"rgba(119, 201, 109, 0.5)"}}>
-                <td>1</td>
-                <td>Pasture</td>
-                <td>0.57</td>
-                <td>0.18</td>
-                <td>0.36</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Pasture</td>
-                <td>0.57</td>
-                <td>0.18</td>
-                <td>0.36</td>
-              </tr>
-              <tr style={{backgroundColor:"rgba(119, 201, 109, 0.5)"}}>
-                <td>1</td>
+              <tr style={{ backgroundColor: "rgba(119, 201, 109, 0.5)" }}>
+                <td>
+                  <input type="checkbox" name="" id="feedsOption" />
+                </td>
                 <td>Pasture</td>
                 <td>0.57</td>
                 <td>0.18</td>
                 <td>0.36</td>
               </tr>
               <tr>
-                <td>1</td>
+                <td>
+                  <input type="checkbox" name="" id="feedsOption" />
+                </td>
+                <td>Pasture</td>
+                <td>0.57</td>
+                <td>0.18</td>
+                <td>0.36</td>
+              </tr>
+              <tr style={{ backgroundColor: "rgba(119, 201, 109, 0.5)" }}>
+                <td>
+                  <input type="checkbox" name="" id="feedsOption" />
+                </td>
+                <td>Pasture</td>
+                <td>0.57</td>
+                <td>0.18</td>
+                <td>0.36</td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" name="" id="feedsOption" />
+                </td>
                 <td>Pasture</td>
                 <td>0.57</td>
                 <td>0.18</td>
@@ -161,7 +211,7 @@ function App() {
         </main>
         <main className='actionContainer'>
           <button className='actionbtn'>Preview Plan</button>
-          <button style={{backgroundColor:"#EC0B43"}} className='actionbtn'>Download Plan</button>
+          <button style={{ backgroundColor: "#EC0B43" }} className='actionbtn'>Download Plan</button>
         </main>
       </Layout>
     </>

@@ -149,11 +149,33 @@ function App() {
             </tbody>
           </table>
         </main>
+
+        <main className='alternative'>
+          <section className='altcontainer'>
+            <div className='optiontext' style={{width:"100%"}}>Total Protein :</div>
+            <button className='altContent'>
+              Daily
+            </button>
+          </section>
+          <section className='altcontainer'>
+            <div className='optiontext' style={{width:"100%"}}>Total Energy :</div>
+            <button className='altContent'>
+              Daily
+            </button>
+          </section>
+          <section className='altcontainer'>
+            <div className='optiontext' style={{width:"100%"}}>Total Fiber :</div>
+            <button className='altContent'>
+             Daily
+            </button>
+          </section>
+        </main>
+
         <main className='tableContainer scroll'>
           <table className='detailsTable'>
             <thead>
               <tr>
-                <th>options</th>
+                <th>Select</th>
                 <th>Food</th>
                 <th>Total Protein</th>
                 <th>Total Energy</th>

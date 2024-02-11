@@ -14,28 +14,28 @@ function App() {
   const animalInfo = useRef(
     [
       {
-        name: "Cow", image: Rectangle1, purpose: ["Work", "Dairy", "Food"]
+        name: "Cattle", image: Rectangle1, purpose: ["Newborn", "Growing", "Producing", "Meat Production", "Maintenace"]
       },
       {
-        name: "Sheep", image: Rectangle13, purpose: ["Dairy", "Food"]
+        name: "Sheep", image: Rectangle13, purpose: ["Newborn", "Growing", "Producing", "Meat Production"]
       },
       {
-        name: "Rabbit", image: Rectangle20, purpose: ["Dairy", "Food"]
+        name: "Rabbit", image: Rectangle20, purpose: ["Newborn", "Growing", "Meat Production"]
       },
       {
-        name: "Goat", image: Rectangle11, purpose: ["Dairy", "Food"]
+        name: "Goat", image: Rectangle11, purpose: ["Newborn", "Growing", "Producing", "Meat Production"]
       },
       {
-        name: "Fish", image: Rectangle12, purpose: ["Dairy", "Food"]
+        name: "Fish", image: Rectangle12, purpose: ["Newborn", "Growing", "Meat Production"]
       },
       {
-        name: "Poultry", image: Rectangle10, purpose: ["Dairy", "Food"]
+        name: "Poultry", image: Rectangle10, purpose: ["Newborn", "Growing", "Producing", "Meat Production"]
       },
       {
-        name: "Horse", image: Rectangle21, purpose: ["Work", "Dairy", "Food"]
+        name: "Horse", image: Rectangle21, purpose: ["Newborn", "Growing", "Meat Production", "Maintenace"]
       },
       {
-        name: "Horse", image: Rectangle21, purpose: ["Work", "Dairy", "Food"]
+        name: "Horse", image: Rectangle21, purpose: ["Newborn", "Growing","Meat Production", "Maintenace"]
       }
     ]
   )

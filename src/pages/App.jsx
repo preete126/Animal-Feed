@@ -34,14 +34,14 @@ function App() {
       {
         name: "Horse", image: Rectangle21, purpose: ["Newborn", "Growing", "Meat Production", "Maintenace"]
       },
-      {
-        name: "Horse", image: Rectangle21, purpose: ["Newborn", "Growing","Meat Production", "Maintenace"]
-      }
     ]
   )
   const [isInputVisible, setIsInputVisible] = useState(Array(animalInfo.current.length).fill(false));
   const [purpose, setPurpose] = useState([])
-  const [display, setDisplay] = useState("none")
+  const [display, setDisplay] = useState({
+    purpose:"none",
+    age:"none"
+  })
   const [actions, setActions] = useState({
     purpose: "Select feeding purpose",
     age: "Select animal age"
@@ -49,8 +49,12 @@ function App() {
 
 
   const dropdown = () => {
-    const change = display == "none" ? "block" : "none"
-    setDisplay(change)
+    const change = display.purpose == "none" ? "block" : "none"
+    setDisplay({...display,purpose:change})
+  }
+  const dropdown2 = () => {
+    const change = display.age == "none" ? "block" : "none"
+    setDisplay({...display,age:change})
   }
 
   const checkedUpdate = (item, index) => {
@@ -74,13 +78,15 @@ function App() {
             <div className='welcomeMessage'>Welcome to Animal Feed</div>
             <div className='detail'>Your go-to resource for optimizing the nutrition of your farm animals.</div>
             <div>
-              <button className='getStartedbtn'>Get Started</button>
+              <button className='getStartedbtn'>
+                <a href="#target" style={{color:"white"}}>Get Started</a>
+              </button>
             </div>
           </div>
         </main>
         <div className='greenBg'></div>
-        <main className='phase1'>
-          <div className='selectTarget'>Select Target Animal</div>
+        <main className='phase1' id='target'>
+          <div className='selectTarget'>Select Target Animal<span style={{ color: "red" }}>*</span></div>
           <section className='col-iteration'>
             {
               animalInfo.current.map((item, index) =>
@@ -106,7 +112,7 @@ function App() {
                 <img src={arrowdown} alt="" />
               </button>
 
-              <div style={{ display: display }} className='dropdownItem'>
+              <div style={{ display: display.purpose }} className='dropdownItem'>
                 {
                   purpose.length !== 0 ? purpose.map((item, index) =>
                     <button key={index} onClick={() => setActions({ ...actions, purpose: item })} className='dropdownbtn'>{item}</button>
@@ -121,12 +127,21 @@ function App() {
             </div>
           </section>
           <section style={{ lineHeight: "50px", width: "100%" }}>
-            <div className='optiontext'>Animal Age</div>
-            <div>
-              <button className='optionbtn'>
+            <div className='optiontext'>Animal Age<span style={{ color: "red" }}>*</span></div>
+            <div style={{ position: "relative" }}>
+              <button onClick={dropdown2} className='optionbtn'>
                 <span>{actions.age}</span>
                 <img src={arrowdown} alt="" />
               </button>
+              <div style={{ display: display.age}} className='dropdownItem'>
+                {
+                  // purpose.length !== 0 ? purpose.map((item, index) =>
+                  //   <button key={index} onClick={() => setActions({ ...actions, purpose: item })} className='dropdownbtn'>{item}</button>
+                  // )
+                  //   :
+                    <div style={{ textAlign: "center", fontSize: "20px", lineHeight:"30px" }}>No content available <br />comming soon!</div>
+                }
+              </div>
             </div>
           </section>
         </main>
@@ -174,7 +189,7 @@ function App() {
           <table className='detailsTable'>
             <thead>
               <tr>
-                <th>Select</th>
+                <th>Select<span style={{ color: "red" }}>*</span></th>
                 <th>Food</th>
                 <th>Total Protein</th>
                 <th>Total Energy</th>

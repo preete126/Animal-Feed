@@ -392,10 +392,16 @@ footer{
   .selectbtn{
     margin:0px 9px 13px;
    }
+   .pages{
+     width: 94%;
+   }
  }
  @media(max-width:635px){
   .animalPhase{
     width: 160px;
+  }
+  .pages{
+    width: 93%;
   }
  }
 @media(max-width:605px){
@@ -425,12 +431,13 @@ footer{
   .optionsbox{
     flex-direction: column;
   }
-  .pages{
-    width: 91%;
-  }
+ 
   .selectbtn{
     margin:0px 11px 17px;
    }
+   .pages{
+    width: 92%;
+  }
  }
  @media(max-width:550px){
   .animalPhase{
@@ -451,9 +458,6 @@ footer{
   .col-iteration{
     margin: 40px 15px 0px 15px !important;
   }
-  .pages{
-    width: 88%;
-  }
   .selectbtn{
     margin:0px 9px 13px;
    }
@@ -466,7 +470,7 @@ footer{
   font-size: 25px;
  }
  .pages{
-  width: 87%;
+  width: 91%;
 }
  }
  @media(max-width:455px){
@@ -508,7 +512,7 @@ footer{
     font-size: 22px;
   }
   .pages{
-    width: 86%;
+    width: 90%;
   }
  }
  @media(max-width:410px){
@@ -519,7 +523,7 @@ footer{
     height: 70px;
   }
   .pages{
-    width: 84%;
+    width: 89%;
   }
   .selectbtn{
     margin:0px 8px 11px;
@@ -546,9 +550,14 @@ footer{
     width: 100%;
   }
   .pages{
-    width: 79%;
+    width: 88%;
   }
   .selectbtn{
     margin:0px 11px 17px;
    }
+ }
+ @media(max-width:347px){
+  .pages{
+    width: 87%;
+  }
  }

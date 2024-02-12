@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Layout from '../components/layout'
 import "../assets/style/App.css"
 import { useRef } from 'react'
+import axios from 'axios'
 import arrowdown from "../assets/images/arrow-drop-down-line.png"
 import Rectangle1 from "../assets/images/Rectangle 1.png"
 import Rectangle10 from "../assets/images/Rectangle 10.png"
@@ -11,6 +12,34 @@ import Rectangle13 from "../assets/images/Rectangle 13.png"
 import Rectangle20 from "../assets/images/Rectangle 20.png"
 import Rectangle21 from "../assets/images/Rectangle 21.png"
 function App() {
+  const [totalProtein, setTotalProtein] = useState('Daily');
+  const [totalEnergy, setTotalEnergy] = useState('Daily');
+  const [totalFiber, setTotalFiber] = useState('Daily');
+  const [selectedAnimal, setSelectedAnimal] = useState(null);
+
+
+  const handleAnimalClick = (item) => {
+    // Use Axios for API request
+    setActions({ ...actions, purpose: item })
+    axios.post('/api/calculate_feed', { animal_type: selectedAnimal, purpose:item })
+      .then(response => {
+        const data = response.data;
+        console.log('Nutritional Information:', data);
+
+        // Update the state with the received nutritional information
+        setTotalProtein(data.totalProtein || 'Daily');
+        setTotalEnergy(data.totalEnergy || 'Daily');
+        setTotalFiber(data.totalFiber || 'Daily');
+      })
+      .catch(error => {
+        console.error('Error fetching nutritional information:', error);
+      });
+
+    // Update the selected animal state
+    
+  };
+
+
   const animalInfo = useRef(
     [
       {
@@ -62,8 +91,9 @@ function App() {
     setIsInputVisible(prev => prev.map(() => false))
     setIsInputVisible(prev => prev.map((visible, i) => i === index ? true : visible))
     setPurpose(item.purpose)
+    setSelectedAnimal(item.name);
     setActions({ ...actions, purpose: "Select feeding purpose" })
-    setDisplay("none")
+    // setDisplay("none")
   }
 
 
@@ -115,7 +145,7 @@ function App() {
               <div style={{ display: display.purpose }} className='dropdownItem'>
                 {
                   purpose.length !== 0 ? purpose.map((item, index) =>
-                    <button key={index} onClick={() => setActions({ ...actions, purpose: item })} className='dropdownbtn'>{item}</button>
+                    <button key={index} onClick={() => handleAnimalClick(item)} className='dropdownbtn'>{item}</button>
                   )
                     :
                     <div style={{ textAlign: "center", fontSize: "20px" }}>No animal picked yet!</div>
@@ -156,9 +186,9 @@ function App() {
             </thead>
             <tbody>
               <tr>
-                <td>Daily</td>
-                <td>Daily</td>
-                <td>Daily</td>
+                <td>{totalProtein}</td>
+                <td>{totalEnergy}</td>
+                <td>{totalFiber}</td>
               </tr>
             </tbody>
           </table>

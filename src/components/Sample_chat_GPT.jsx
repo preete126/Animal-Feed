@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Layout from '../components/layout';
+import Layout from './layout';
 import axios from 'axios'; // Import Axios
 import "../assets/style/App.css";
 import { useRef } from 'react';

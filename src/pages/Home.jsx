@@ -11,7 +11,7 @@ import Rectangle12 from "../assets/images/Rectangle 12.png"
 import Rectangle13 from "../assets/images/Rectangle 13.png"
 import Rectangle20 from "../assets/images/Rectangle 20.png"
 import Rectangle21 from "../assets/images/Rectangle 21.png"
-function App() {
+function Home() {
   const [totalProtein, setTotalProtein] = useState('Daily');
   const [totalEnergy, setTotalEnergy] = useState('Daily');
   const [totalFiber, setTotalFiber] = useState('Daily');
@@ -19,14 +19,11 @@ function App() {
 
 
   const handleAnimalClick = (item) => {
-    // Use Axios for API request
     setActions({ ...actions, purpose: item })
-    axios.post('/api/calculate_feed', { animal_type: selectedAnimal, purpose:item })
+    axios.post('api/calculate_feed', { animal_type: selectedAnimal, purpose:item })
       .then(response => {
         const data = response.data;
         console.log('Nutritional Information:', data);
-
-        // Update the state with the received nutritional information
         setTotalProtein(data.totalProtein || 'Daily');
         setTotalEnergy(data.totalEnergy || 'Daily');
         setTotalFiber(data.totalFiber || 'Daily');
@@ -35,7 +32,6 @@ function App() {
         console.error('Error fetching nutritional information:', error);
       });
 
-    // Update the selected animal state
     
   };
 
@@ -284,4 +280,4 @@ function App() {
   )
 }
 
-export default App
+export default Home

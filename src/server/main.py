@@ -4,7 +4,7 @@ from ListGenration import ChoseAnimal, get_feedstuff_for_hardcoded_animal
 
 app = Flask(__name__)
 
-@app.route('/calculate_feed', methods=['POST'])
+@app.route('api/calculate_feed', methods=['POST'])
 def calculate_feed():
     data = request.get_json()
 

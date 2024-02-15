@@ -11,19 +11,76 @@ import Rectangle12 from "../assets/images/Rectangle 12.png"
 import Rectangle13 from "../assets/images/Rectangle 13.png"
 import Rectangle20 from "../assets/images/Rectangle 20.png"
 import Rectangle21 from "../assets/images/Rectangle 21.png"
-function Home() {
+function App() {
+
+
   const [totalProtein, setTotalProtein] = useState('Daily');
   const [totalEnergy, setTotalEnergy] = useState('Daily');
   const [totalFiber, setTotalFiber] = useState('Daily');
   const [selectedAnimal, setSelectedAnimal] = useState(null);
-
+/*
+  const handleAnimalClick = (item) => {
+    // Update state with purpose
+    setActions({ ...actions, purpose: item });
+  
+    // Prepare data for POST request
+    const data = {
+      animal_type: selectedAnimal,
+      purpose: item,
+    };
+  
+    // Use Axios with Content-Type header
+    axios.post('http://127.0.0.1:5000/api/calculate_feed', data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        const data = response.data;
+        console.log('Nutritional Information:', data);
+  
+        // Handle valid response:
+        const nutritionalInfo = {
+          totalProtein: data.totalProtein || 'Daily',
+          totalEnergy: data.totalEnergy || 'Daily',
+          totalFiber: data.totalFiber || 'Daily',
+        };
+  
+        // Update state with structured nutritional information
+        setTotalProtein(nutritionalInfo.totalProtein);
+        setTotalEnergy(nutritionalInfo.totalEnergy);
+        setTotalFiber(nutritionalInfo.totalFiber);
+      })
+      .catch((error) => {
+        // Handle errors more specifically:
+        if (error.response) {
+          // Server-side error with status code
+          console.error(
+            `Error fetching nutritional information (status ${error.response.status}):`
+          );
+          // Handle specific error codes (e.g., 400 for invalid data, 404 for unknown animal)
+        } else if (error.request) {
+          // Network error
+          console.error('Error connecting to server:', error.request);
+        } else {
+          // Other errors
+          console.error('Error fetching nutritional information:', error);
+        }
+  
+        // Provide user feedback or take appropriate actions based on the error
+      });
+  };
+*/
 
   const handleAnimalClick = (item) => {
+     // Use Axios for API request
     setActions({ ...actions, purpose: item })
-    axios.post('api/calculate_feed', { animal_type: selectedAnimal, purpose:item })
+    axios.post('http://127.0.0.1:5000/api/calculate_feed', { animal_type: selectedAnimal, purpose:item })
       .then(response => {
         const data = response.data;
         console.log('Nutritional Information:', data);
+
+        // Update the state with the received nutritional information
         setTotalProtein(data.totalProtein || 'Daily');
         setTotalEnergy(data.totalEnergy || 'Daily');
         setTotalFiber(data.totalFiber || 'Daily');
@@ -39,7 +96,7 @@ function Home() {
   const animalInfo = useRef(
     [
       {
-        name: "Cattle", image: Rectangle1, purpose: ["Newborn", "Growing", "Producing", "Meat Production", "Maintenace"]
+        name: "Cattle", image: Rectangle1, purpose: ["Newborn", "Growing", "Producing", "Meat Production", "Maintenance"]
       },
       {
         name: "Sheep", image: Rectangle13, purpose: ["Newborn", "Growing", "Producing", "Meat Production"]
@@ -57,7 +114,7 @@ function Home() {
         name: "Poultry", image: Rectangle10, purpose: ["Newborn", "Growing", "Producing", "Meat Production"]
       },
       {
-        name: "Horse", image: Rectangle21, purpose: ["Newborn", "Growing", "Meat Production", "Maintenace"]
+        name: "Horse", image: Rectangle21, purpose: ["Newborn", "Growing", "Meat Production", "Maintenance"]
       },
     ]
   )

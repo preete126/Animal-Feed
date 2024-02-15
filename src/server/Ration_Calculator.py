@@ -4,40 +4,40 @@ animal_weights_averages = {
         'goat': 3.4,
         'sheep': 3.4,
         'poultry': 0.0425,
-        'rabbits': 0.085,
+        'rabbit': 0.085,
         'fish': 1.6,  # Nile Tilapia
-        'horses': 36,
+        'horse': 36,
         'cattle': 36,  # Boran Cattle
     },
     'growing': {
         'goat': 31.5,
         'sheep': 31.5,
         'poultry': 1.6,
-        'rabbits': 2.7,
+        'rabbit': 2.7,
         'fish': 2.7,  # Random breed for fish
-        'horses': 295,  # Boerperd
+        'horse': 295,  # Boerperd
         'cattle': 295,  # Boran Cattle
     },
     'producing': {
         'goat': 90.5,
         'sheep': 79,
         'poultry': 2.5,
-        'rabbits': None,
+        'rabbit': None,
         'fish': None,  # Random breed for fish
-        'horses': None,  # Random breed for horses
+        'horse': None,  # Random breed for horses
         'cattle': 680.5,  # Random breed for cattle
     },
-    'meat_production': {
+    'meat production': {
         'goat': 70,
         'sheep': 70,
         'poultry': 2.7,
-        'rabbits': 3.6,
+        'rabbit': 3.6,
         'fish': 4.5,  # Random breed for fish
-        'horses': 680.5,  # Random breed for horses
+        'horse': 680.5,  # Random breed for horses
         'cattle': 680.5,  # Random breed for cattle
     },
     'maintenance': {
-        'horses': 680.5,  # Boerperd
+        'horse': 680.5,  # Boerperd
         'cattle': 680.5,  # Boran Cattle
     }
 }
@@ -57,6 +57,13 @@ poultry_feeding_plan = {
         'Total_Protein': 18,
         'Total_Energy': 13,  # Approximate percentage
         'Total_Fiber': 6,
+
+     },
+    'meat production': {
+        'Total_Protein': 18,
+        'Total_Energy': 13,  # Approximate percentage
+        'Total_Fiber': 6,
+
     
     }
 }
@@ -72,10 +79,15 @@ sheep_feeding_plan = {
         'Total_Energy': 11,  # Approximate percentage
         'Total_Fiber': 7,
     },
-    'meat_production': {
+    'meat production': {
         'Total_Protein': 14,
-        'Total_Energy_Maintenance': 10,  # Approximate percentage
+        'Total_Energy': 10,  # Approximate percentage
         'Total_Fiber': 8,
+    },
+    'producing': {
+        'Total_Protein': 18,
+        'Total_Energy_Lactating': 14,  # Approximate percentage
+        'Total_Fiber': 9,
     },
     
     
@@ -92,7 +104,7 @@ goat_feeding_plan = {
         'Total_Energy': 12,  # Approximate percentage
         'Total_Fiber': 9,
     },
-    'meat_production': {
+    'meat production': {
         'Total_Protein': 16,
         'Total_Energy': 11,  # Approximate percentage
         'Total_Fiber': 10,
@@ -116,7 +128,7 @@ rabbit_feeding_plan = {
         'Total_Energy': 9,  # Approximate percentage
         'Total_Fiber': 16,
     },
-    'meat_production': {
+    'meat production': {
         'Total_Protein': 14,
         'Total_Energy': 8,  # Approximate percentage
         'Total_Fiber': 17,
@@ -130,12 +142,12 @@ horse_feeding_plan = {
         'Total_Energy': 12,  # Approximate percentage
         'Total_Fiber': 7,
     },
-    'Growing': {
+    'growing': {
         'Total_Protein': 18,
         'Total_Energy': 10,  # Approximate percentage
         'Total_Fiber': 8,
     },
-    'meat_production': {
+    'meat production': {
         'Total_Protein': 16,
         'Total_Energy': 9,  # Approximate percentage
         'Total_Fiber': 9,
@@ -160,7 +172,7 @@ fish_feeding_plan = {
         'Total_Energy': 14,  # Approximate percentage
         'Total_Fiber': 2,
     },
-    'meat_production': {
+    'meat production': {
         'Total_Protein': 16,
         'Total_Energy': 13,  # Approximate percentage
         'Total_Fiber': 3,
@@ -178,7 +190,7 @@ cattle_feeding_plan = {
         'Total_Energy': 10,  # Approximate percentage
         'Total_Fiber': 12,
     },
-    'meat_production': {
+    'meat production': {
         'Total_Protein': 14,
         'Total_Energy': 9,  # Approximate percentage
         'Total_Fiber': 14,
@@ -228,12 +240,12 @@ def select_stage(animal_type):
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-def calculate_nutritional_requirements(animal_type):
+def calculate_nutritional_requirements(animal_type, stage):
     # Get the appropriate feeding plan based on the animal type
 
     if animal_type == 'goat':
         feeding_plan = goat_feeding_plan
-    elif animal_type == 'poulty':
+    elif animal_type == 'poultry':
         feeding_plan = poultry_feeding_plan
     elif animal_type == 'sheep':
         feeding_plan = sheep_feeding_plan
@@ -248,17 +260,16 @@ def calculate_nutritional_requirements(animal_type):
     else:
         print(f"Feeding plan not available for {animal_type}.")
         return None
-    stage = select_stage(animal_type)
+
     # Get the nutritional requirements from the feeding plan for the specified stage
     average_weight = animal_weights_averages.get(stage, {}).get(animal_type)
-    requirements = feeding_plan.get(stage)
+    requirements = stage and animal_type
     
-
     if requirements is not None:
         # Calculate estimated nutritional requirements
-        estimated_protein = (average_weight) *(requirements.get('Total_Protein', 0) /100)  # Convert protein to g/kg
-        estimated_energy = (average_weight) * (requirements.get('Total_Energy', 0)/100)  # Convert energy to kcal/kg
-        estimated_fiber = (average_weight) * (requirements.get('Total_Fiber', 0)/100)  # Convert fiber to g/kg
+        estimated_protein = round((average_weight) *(feeding_plan.get(stage,{}).get('Total_Protein', 0) /100),4)  # Convert protein to g/kg
+        estimated_energy = round((average_weight) *(feeding_plan.get(stage,{}).get('Total_Energy', 0)/100),4)  # Convert energy to kcal/kg
+        estimated_fiber = round((average_weight) * (feeding_plan.get(stage,{}).get('Total_Fiber', 0)/100),4)  # Convert fiber to g/kg
         estimated_total_feed = estimated_protein + estimated_energy+ estimated_fiber
 
         return {
@@ -272,3 +283,4 @@ def calculate_nutritional_requirements(animal_type):
     else:
         print(f"Feeding plan not available for {animal_type} in the {stage} stage.")
         return None
+        

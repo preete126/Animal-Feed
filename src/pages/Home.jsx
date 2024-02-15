@@ -11,7 +11,7 @@ import Rectangle12 from "../assets/images/Rectangle 12.png"
 import Rectangle13 from "../assets/images/Rectangle 13.png"
 import Rectangle20 from "../assets/images/Rectangle 20.png"
 import Rectangle21 from "../assets/images/Rectangle 21.png"
-function App() {
+function Home() {
 
 
   const [totalProtein, setTotalProtein] = useState('Daily');

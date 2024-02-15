@@ -1,13 +1,10 @@
-
-from flask_cors import CORS
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify
 from Cattle_Ration_Calculator import calculate_nutritional_requirements
 from ListGenration import ChoseAnimal, get_feedstuff_for_hardcoded_animal
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
 
-@app.route('/calculate_feed', methods=['POST'])
+@app.route('api/calculate_feed', methods=['POST'])
 def calculate_feed():
     data = request.get_json()
 

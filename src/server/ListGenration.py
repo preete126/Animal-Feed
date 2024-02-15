@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load the dataset
-dataset_path = 'src\pages\CSV_Folder\ProcessedFarmFeedFile.csv'  # Replace with the actual path or filename
+dataset_path = 'ProcessedFarmFeedFile.csv'  # Replace with the actual path or filename
 
 df = pd.read_csv(dataset_path)  # Assuming it's a tab-separated file
 

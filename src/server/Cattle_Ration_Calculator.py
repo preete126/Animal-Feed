@@ -228,7 +228,7 @@ def select_stage(animal_type):
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-def calculate_nutritional_requirements(animal_type, stage):
+def calculate_nutritional_requirements(animal_type):
     # Get the appropriate feeding plan based on the animal type
 
     if animal_type == 'goat':
@@ -251,15 +251,14 @@ def calculate_nutritional_requirements(animal_type, stage):
     stage = select_stage(animal_type)
     # Get the nutritional requirements from the feeding plan for the specified stage
     average_weight = animal_weights_averages.get(stage, {}).get(animal_type)
-    requirements = stage
+    requirements = feeding_plan.get(stage)
     
-
 
     if requirements is not None:
         # Calculate estimated nutritional requirements
-        estimated_protein = (average_weight) *(feeding_plan.get('Total_Protein', 0) /100)  # Convert protein to g/kg
-        estimated_energy = (average_weight) * (feeding_plan.get('Total_Energy', 0)/100)  # Convert energy to kcal/kg
-        estimated_fiber = (average_weight) * (feeding_plan.get('Total_Fiber', 0)/100)  # Convert fiber to g/kg
+        estimated_protein = (average_weight) *(requirements.get('Total_Protein', 0) /100)  # Convert protein to g/kg
+        estimated_energy = (average_weight) * (requirements.get('Total_Energy', 0)/100)  # Convert energy to kcal/kg
+        estimated_fiber = (average_weight) * (requirements.get('Total_Fiber', 0)/100)  # Convert fiber to g/kg
         estimated_total_feed = estimated_protein + estimated_energy+ estimated_fiber
 
         return {

@@ -1,28 +1,41 @@
 import "../assets/style/App.css"
 import logo from "../assets/images/2.png"
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 
-function Layout({children}) {
-    return ( 
+function Layout({ children }) {
+    const [style, setStyle] = useState(true)
+
+    const toggle = ()=>{
+        setStyle(!style)
+    }
+
+    return (
         <>
             <nav className="navbar">
                 <div className="webName">
-                    <a href="#">
+                    <Link to={"/"}>
                         <img src={logo} width={"100%"} height={"100%"} alt="" />
-                    </a>
+                    </Link>
                 </div>
-                <ul className="pages">
+                <div className="toggle" onClick={toggle}>
+                    <div className="icon-bar one"></div>
+                    <div className="icon-bar two"></div>
+                    <div className="icon-bar three"></div>
+                </div>
+                <ul className={`pages ${style?"close":"open"}`}>
                     <li>
-                        <a href="#" style={{color:"#0B5D1E", fontWeight: "500"}}>Home</a>
+                        <Link to={"/"} style={{ color: "#0B5D1E", fontWeight: "500" }}>Home</Link>
                     </li>
                     <li>
-                        <a href="#">About Us</a>
+                        <Link to={"/about-us"}>About Us</Link>
                     </li>
                     <li>
-                        <a href="#">Foods</a>
+                        <Link to={"/foods"}>Foods</Link>
                     </li>
                     <li>
-                        <a href="#">Contact Us</a>
+                        <Link to={"/contact-us"}>Contact Us</Link>
                     </li>
                 </ul>
             </nav>
@@ -33,7 +46,7 @@ function Layout({children}) {
                 <small>© Animal Feed, 2024. All right reserved.</small>
             </footer>
         </>
-     );
+    );
 }
 
 export default Layout;

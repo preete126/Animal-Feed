@@ -178,15 +178,29 @@ a:active{
 }
 .aim{
   position: relative;
+  width: 47%;
   display: flex;
-  gap: 5px;
-  align-items: center;
-  line-height: 50px;
+  gap: 10px;
+  align-items: baseline;
+  line-height: 100px;
+}
+.continue{
+  width: 320px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  
+}
+.continue a{
+  color: rgb(79, 79, 192);
 }
 .aim .div1{
   color:#2BC016 ;
   transform: rotate(-45deg);
   font-size: 20px;
+}
+.aim .div2{
+  line-height: 30px;
 }
 .aboutus{
   width: 100%;
@@ -198,8 +212,8 @@ a:active{
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  width: 100%;
-  height: 400px;
+  width: 50%;
+  height: 250px;
   margin-left: auto;
   font-size: x-large;
   color: aliceblue;
@@ -398,6 +412,17 @@ text-align: center;
   margin: 0 10px;
   display: none;
 }
+.team{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+/* .team > div{
+  max-width: 400px;
+  border: 1px solid green;
+} */
 .altContent{
   border:1px solid #CDCDCD;
   padding:10px 20px;
@@ -436,9 +461,12 @@ footer{
   .aim{
     line-height: 80px;
   }
-  .aim .div2{
-    line-height: 30px;
+  /* .team > .aim{
+    width: 350px;
   }
+  .team > div{
+    width: 350px;
+  } */
 }
 @media(max-width:980px){
   .phase1, .optionsbox, .tableContainer, .actionContainer, .phase2, .phase3{
@@ -463,10 +491,9 @@ footer{
  .animalPhase{
    width: 210px;
  }
- .oval{
-   display: none;
+ .continue{
+   width: 270px;
  }
-
 }
 @media(max-width:770px){
  .animalPhase{
@@ -531,6 +558,9 @@ footer{
    .phase2{
      flex-wrap: wrap;
    }
+   .continue{
+     width: 200px;
+   }
  }
  @media(max-width:635px){
   .animalPhase{
@@ -538,6 +568,9 @@ footer{
   }
   .pages{
     width: 93%;
+  }
+  .oval{
+    display: none;
   }
  }
 @media(max-width:605px){
@@ -559,6 +592,9 @@ footer{
   .selectbtn{
     margin:0px 8px 11px;
    }
+  .aim{
+    width: 100%;
+  }
 }
 @media(max-width:570px){
   .animalPhase{
@@ -608,6 +644,9 @@ footer{
  .pages{
   width: 91%;
 }
+/* .continue{
+  width: 250px;
+} */
  }
  @media(max-width:455px){
   .animalPhase{

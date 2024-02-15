@@ -9,6 +9,8 @@ function Foods() {
     const [feedsHeader, setFeedsHeader] = useState([])
     let isMounted = true
     const [feeds, setFeeds] = useState([])
+    let [loading, setLoading] = useState(true)
+    let [errors, setErrors] = useState(false)
 
     useEffect(() => {
 
@@ -32,12 +34,18 @@ function Foods() {
 
                 }
 
-
             } catch (error) {
-                console.log(error);
+                loading = false
+                setLoading(loading)
+                errors = true
+                setErrors(errors)
+                console.log(error, loading);
+            } finally {
+                loading = false
+                setLoading(loading)
+                console.log(loading);
             }
         }
-        // console.log(paths);
         if (isMounted) fetchData()
         return () => {
             isMounted = false
@@ -63,54 +71,68 @@ function Foods() {
                 <div className="phase1">
                     <div className='selectTarget' id="target">Composition and valuation of feeds</div>
                 </div>
-                <main className='tableContainer scrollX'>
-                    <div style={{lineHeight:"40px"}}>Note: The "0" under a particular animal indicates the feed doesn't belong to the animal while "1" indicates the animal's kind of feed</div>
-                    <table className='detailsTable'>
+                {
+                    loading && feedsHeader.length == 0 ?
+                        <div className="phase1" style={{ fontSize: "20px", textAlign: "center" }}>LOADING!!!</div>
 
-                        <thead>
-                            <tr>
-                                {
-                                    feedsHeader.map((value, index) =>
-                                        <th key={"header"} style={{ border: "1px solid #CDCDCD" }}>{value}</th>
-                                    )
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                feeds.map(value =>
-                                    <tr key={value}>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[0]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[1]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[2]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[3]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[4]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[5]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[6]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[7]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[8]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[9]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[10]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[11]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[12]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[13]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[14]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[15]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[16]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[17]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[18]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[19]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[20]}</td>
-                                        <td style={{ border: "1px solid #CDCDCD" }}>{value[21]}</td>
-                                    </tr>
-                                )
-                            }
-                        </tbody>
-                    </table>
-                </main>
+                        : !loading && feedsHeader.length >= 1 ?
+                            <main className='tableContainer scrollX'>
+                                <div style={{ lineHeight: "40px" }}>Note: The "0" under a particular animal indicates the feed doesn't belong to the animal while "1" indicates the animal's kind of feed</div>
+                                <table className='detailsTable'>
+
+                                    <thead>
+                                        <tr>
+                                            {
+                                                feedsHeader.map((value, index) =>
+                                                    <th key={"header"} style={{ border: "1px solid #CDCDCD" }}>{value}</th>
+                                                )
+                                            }
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            feeds.map(value =>
+                                                <tr key={value}>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[0]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[1]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[2]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[3]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[4]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[5]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[6]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[7]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[8]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[9]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[10]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[11]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[12]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[13]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[14]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[15]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[16]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[17]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[18]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[19]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[20]}</td>
+                                                    <td style={{ border: "1px solid #CDCDCD" }}>{value[21]}</td>
+                                                </tr>
+                                            )
+                                        }
+                                    </tbody>
+                                </table>
+                            </main>
+                            :
+                            !loading && errors &&
+                            <div className="phase1" style={{ fontSize: "20px", textAlign: "center" }}>
+                                Network Error! check your internet connection and try again
+                            </div>
+                }
             </Layout>
         </>
     );
 }
+
+
+
 
 export default Foods;

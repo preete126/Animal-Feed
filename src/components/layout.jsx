@@ -29,10 +29,10 @@ function Layout({ children }) {
                         <Link to={"/"} style={{ color: "#0B5D1E", fontWeight: "500" }}>Home</Link>
                     </li>
                     <li>
-                        <Link to={"/about-us"}>About Us</Link>
+                        <Link to={"/foods"}>Foods</Link>
                     </li>
                     <li>
-                        <Link to={"/foods"}>Foods</Link>
+                        <Link to={"/about-us"}>About Us</Link>
                     </li>
                     <li>
                         <Link to={"/contact-us"}>Contact Us</Link>

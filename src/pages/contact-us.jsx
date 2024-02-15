@@ -24,7 +24,7 @@ function ContactUs() {
                             <img src={email} width={"32px"} alt="" />
                         </div>
                         <div className="methods">Email</div>
-                        <span>gdscalhikmahuni@gmail.com</span>
+                        <span>abdulmaliklawal115@gmail.com</span>
                     </section>
                     <section className="contacts">
                         <div className="shape">

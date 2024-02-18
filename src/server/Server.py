@@ -32,9 +32,9 @@ def calculate_feed():
             "FEEDSTUFF": feed_list.to_string(index=False)
         }
 
-        return jsonify(response), 200
+        return response 
     else:
-        return jsonify({'error': f'No feedstuff information available for {animal_type} in {stage} stage.'}), 404
+        return print({'error': f'No feedstuff information available for {animal_type} in {stage} stage.'}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

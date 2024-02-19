@@ -52,7 +52,7 @@ function AboutUs() {
                         <div className="aim">
                             <div className="div1">&#10148;</div>
                             <div style={{ lineHeight: "30px" }}>
-                                <div className="div2">Mubarokah Ismail (Frontend Designer): A creative force, crafting intuitive and engaging user experiences.</div>
+                                <div className="div2">Mubarokah Ismail (Frontend Developer): A creative force, crafting intuitive and engaging user experiences.</div>
                                 <div style={{marginTop:"20px"}}>
                                     <div>LinkedIn:</div>
                                     <div className="continue"><a href="https://linkedin.com/in/ismail-mubarokah-461410234">https://linkedin.com/in/ismail-mubarokah-461410234</a></div>
@@ -66,7 +66,7 @@ function AboutUs() {
                         <div className="aim">
                             <div className="div1">&#10148;</div>
                             <div style={{ lineHeight: "30px" }}>
-                                <div className="div2">Muhammad Baba-Ahmad (Backend Designer): The technical backbone, ensuring robust and scalable systems.</div>
+                                <div className="div2">Muhammad Baba-Ahmad (Backend Designer and Data Analyst): The technical backbone, ensuring robust and scalable systems.</div>
                                 <div style={{marginTop:"20px"}}>
                                     <div>X:</div>
                                     <div className="continue"><a href="https://x.com/ABaba93586?t=ehGuZJBOYDze0i-jEfs24A&s=09">https://x.com/ABaba93586?t=ehGuZJBOYDze0i-jEfs24A&s=09</a></div>

@@ -39,11 +39,9 @@ function Foods() {
                 setLoading(loading)
                 errors = true
                 setErrors(errors)
-                console.log(error, loading);
             } finally {
                 loading = false
                 setLoading(loading)
-                console.log(loading);
             }
         }
         if (isMounted) fetchData()
@@ -73,7 +71,7 @@ function Foods() {
                 </div>
                 {
                     loading && feedsHeader.length == 0 ?
-                        <div className="phase1" style={{ fontSize: "20px", textAlign: "center" }}>LOADING!!!</div>
+                        <div className="phase1" style={{ fontSize: "18px", textAlign: "center" }}>LOADING!!!</div>
 
                         : !loading && feedsHeader.length >= 1 ?
                             <main className='tableContainer scrollX'>
@@ -123,7 +121,7 @@ function Foods() {
                             </main>
                             :
                             !loading && errors &&
-                            <div className="phase1" style={{ fontSize: "20px", textAlign: "center" }}>
+                            <div className="phase1" style={{ fontSize: "18px", textAlign: "center" }}>
                                 Network Error! check your internet connection and try again
                             </div>
                 }

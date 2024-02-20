@@ -157,7 +157,8 @@ function Home() {
       try {
         const data = {
           animal_type: selectedAnimal,
-          selected_feeds: feedReq
+          selected_feeds: feedReq,
+          purpose: actions.purpose
         }
         const req = await post_preview(data)
         const res = req.data

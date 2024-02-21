@@ -13,6 +13,7 @@ import Rectangle20 from "../assets/images/Rectangle 20.png"
 import Rectangle21 from "../assets/images/Rectangle 21.png"
 import { post_preview, post_purpose } from '../services/feeds'
 import Preview from '../components/preview'
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
 import generatePDF from "react-to-pdf"
 function Home() {
   const [totalProtein, setTotalProtein] = useState('Daily');
@@ -21,6 +22,7 @@ function Home() {
   const [selectedAnimal, setSelectedAnimal] = useState(null);
   let [totalFeed, setTotalFeed] = useState([])
   const targetRef = useRef();
+
   const animalInfo = useRef(
     [
       {
@@ -56,11 +58,11 @@ function Home() {
     purpose: "Select feeding purpose",
     age: "Select animal age"
   })
-  let [modal, setModal] = useState("modal")
+  let [modal, setModal] = useState("")
   let [loading, setLoading] = useState(null)
   let [errors, setErrors] = useState(null)
   let [feedReq, setFeedReq] = useState([])
-  const [show, setShow] = useState("none")
+  let [show, setShow] = useState("none")
   let [loadPreview, setLoadPreview] = useState(null)
   let [previewErr, setPreviewErr] = useState(null)
   let [previewContent, setPreviewContent] = useState({
@@ -88,7 +90,7 @@ function Home() {
     setLoading(loading)
     errors = false
     setErrors(errors)
-   
+
     setFeedReq(feedReq)
     try {
       const postData = {
@@ -124,7 +126,7 @@ function Home() {
       loading = false
       setLoading(loading)
     }
-   
+
   };
 
   const dropdown = () => {
@@ -155,7 +157,7 @@ function Home() {
         setFeedReq(feedReq)
         selectedFeeds.push(item[1])
         setSelectedFeeds(selectedFeeds)
-        console.log(feedReq,selectedFeeds);
+        console.log(feedReq, selectedFeeds);
       }
       else {
         ev.target.checked = false
@@ -168,19 +170,19 @@ function Home() {
       setFeedReq(feedReq)
       selectedFeeds = feedUpdate
       setSelectedFeeds(selectedFeeds)
-      console.log(feedReq,selectedFeeds);
+      console.log(feedReq, selectedFeeds);
     }
 
 
   }
-  const preview = async () => {
-    setModal("modal")
+
+  const layout = async (param) => {
     previewContent.Importantnote = []
     previewContent.Ingredients = {}
     previewContent.Instructions = []
     setPreviewContent(previewContent)
     if (feedReq.length !== 0 && feedReq.length <= 3) {
-      setShow("block")
+      setShow(param)
       loadPreview = true
       setLoadPreview(loadPreview)
       previewErr = false
@@ -213,15 +215,82 @@ function Home() {
     }
   }
 
+
+  const preview = async () => {
+    // setModal("modal")
+    layout("block")
+  }
   const getTargetElement = () => document.getElementById('content-id')
 
-  const DownloadPDF = ()=>{
-    setModal("")
-    setShow("block")
-    generatePDF(getTargetElement, {filename: 'feeds-guide.pdf'})
-    console.log(show,modal);
+  const MyComponent = ()=>{
+    // return ()=>{
+    //   <>
+        <main id="content-id">
+      <Preview props={{ actions, setShow, selectedAnimal, loadPreview, previewContent, selectedFeeds, previewErr, totalProtein, totalFiber, totalEnergy, id: "content-id"}} />
+    </main>
+    //   </>
+    // }
   }
 
+
+  const DownloadPDF = () => {
+    
+    // layout("none")
+    <MyComponent/>
+    generatePDF( getTargetElement,{ filename: 'feeds-guide.pdf' })
+     
+    // return gen;
+
+    // }
+
+    // if (previewContent.Importantnote.length >= 1) gene();
+  }
+  const styles = StyleSheet.create({
+    page: {
+      flexDirection: 'row',
+      backgroundColor: '#E4E4E4',
+    },
+    section: {
+      margin: 10,
+      padding: 10,
+      flexGrow: 1,
+    },
+  });
+  const MyDocument = () => (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          <Text>Content before modal</Text>
+        </View>
+        <h1>hello</h1>
+        {/* <Preview  props={{ actions, setShow, selectedAnimal, loadPreview, previewContent, selectedFeeds, previewErr, totalProtein, totalFiber, totalEnergy}}/> */}
+        <View style={styles.section}>
+          <Text>Content after modal</Text>
+        </View>
+      </Page>
+    </Document>
+  );
+  const handleDownloadPDF = () => {
+    // Create PDF Blob
+    //  layout("none")
+    const pdfAsString = (
+      <PDFDownloadLink document={<MyDocument />} fileName="modal_example.pdf">
+        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF')}
+      </PDFDownloadLink>
+    ).props.children.props.href; // Accessing href directly
+
+    // Convert PDF string to blob
+    const pdfBlob = new Blob([pdfAsString], { type: 'application/pdf' });
+
+    // Trigger download
+    const url = URL.createObjectURL(pdfBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'modal_example.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
 
   return (
@@ -365,7 +434,7 @@ function Home() {
                               <input
                                 type="checkbox"
                                 id="feedsOption"
-                                onChange={Event => handleFeedPlan(Event, index,value)}
+                                onChange={Event => handleFeedPlan(Event, index, value)}
                               />
                             </td>
                             <td>{value[1]}</td>
@@ -394,9 +463,17 @@ function Home() {
                 Network Error! check your internet connection and try again
               </div>
         }
-      <main>
-      <Preview props={{actions,show,setShow,selectedAnimal,loadPreview,previewContent,selectedFeeds,previewErr,totalProtein,totalFiber,totalEnergy,id:"content-id",modal}}/>
-      </main>
+        
+        <main className={`modal ${show}`}>
+          <div className="modal-content scroll">
+            <div className='closebtnContainer'>
+              <button className='closebtn' onClick={() => setShow("none")}>&times;</button>
+            </div>
+            <Preview props={{ actions, setShow, selectedAnimal, loadPreview, previewContent, selectedFeeds, previewErr, totalProtein, totalFiber, totalEnergy, id: "content-id", modal }} />
+
+          </div>
+
+        </main>
       </Layout>
     </>
   )

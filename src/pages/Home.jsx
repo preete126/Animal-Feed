@@ -1,8 +1,7 @@
-import { Children, useState } from 'react'
+import {useState } from 'react'
 import Layout from '../components/layout'
 import "../assets/style/App.css"
 import { useRef } from 'react'
-import axios from 'axios'
 import arrowdown from "../assets/images/arrow-drop-down-line.png"
 import Rectangle1 from "../assets/images/Rectangle 1.png"
 import Rectangle10 from "../assets/images/Rectangle 10.png"
@@ -13,7 +12,6 @@ import Rectangle20 from "../assets/images/Rectangle 20.png"
 import Rectangle21 from "../assets/images/Rectangle 21.png"
 import { post_preview, post_purpose } from '../services/feeds'
 import Preview from '../components/preview'
-import { Document, BlobProvider, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
 import generatePDF from "react-to-pdf"
 function Home() {
   const [totalProtein, setTotalProtein] = useState('Daily');
@@ -21,7 +19,6 @@ function Home() {
   const [totalFiber, setTotalFiber] = useState('Daily');
   const [selectedAnimal, setSelectedAnimal] = useState(null);
   let [totalFeed, setTotalFeed] = useState([])
-  const targetRef = useRef();
 
   const animalInfo = useRef(
     [

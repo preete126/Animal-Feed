@@ -12,12 +12,15 @@ import Rectangle13 from "../assets/images/Rectangle 13.png"
 import Rectangle20 from "../assets/images/Rectangle 20.png"
 import Rectangle21 from "../assets/images/Rectangle 21.png"
 import { post_preview, post_purpose } from '../services/feeds'
+import Preview from '../components/preview'
+import generatePDF from "react-to-pdf"
 function Home() {
   const [totalProtein, setTotalProtein] = useState('Daily');
   const [totalEnergy, setTotalEnergy] = useState('Daily');
   const [totalFiber, setTotalFiber] = useState('Daily');
   const [selectedAnimal, setSelectedAnimal] = useState(null);
   let [totalFeed, setTotalFeed] = useState([])
+  const targetRef = useRef();
   const animalInfo = useRef(
     [
       {
@@ -53,21 +56,40 @@ function Home() {
     purpose: "Select feeding purpose",
     age: "Select animal age"
   })
+  let [modal, setModal] = useState("modal")
   let [loading, setLoading] = useState(null)
   let [errors, setErrors] = useState(null)
   let [feedReq, setFeedReq] = useState([])
   const [show, setShow] = useState("none")
-
+  let [loadPreview, setLoadPreview] = useState(null)
+  let [previewErr, setPreviewErr] = useState(null)
+  let [previewContent, setPreviewContent] = useState({
+    Importantnote: [],
+    Instructions: [],
+    Ingredients: {}
+  })
+  let [selectedFeeds, setSelectedFeeds] = useState([])
 
 
   const handleAnimalClick = async (item) => {
+    totalFeed = []
+    setTotalFeed(totalFeed)
+    feedReq = []
+    setFeedReq(feedReq)
+    previewContent.Importantnote = []
+    previewContent.Instructions = []
+    previewContent.Ingredients = {}
+    selectedFeeds = []
+    setSelectedFeeds(selectedFeeds)
+    setPreviewContent(previewContent)
     setActions({ ...actions, purpose: item })
     setDisplay({ ...display, purpose: "none" })
     loading = true
     setLoading(loading)
     errors = false
     setErrors(errors)
-    totalFeed = []
+   
+    setFeedReq(feedReq)
     try {
       const postData = {
         animal_type: selectedAnimal,
@@ -79,7 +101,6 @@ function Home() {
       setTotalEnergy(data.totalEnergy || 'Daily');
       setTotalFiber(data.totalFiber || 'Daily');
       const res = data.FEEDSTUFF.split("\n")
-      console.log(res);
       let index = 0
       for (const rows of res) {
         let row = String(rows).split(",")
@@ -89,7 +110,6 @@ function Home() {
         if (index !== 0) {
           totalFeed.push(ret)
           setTotalFeed(totalFeed)
-          console.log(totalFeed);
         }
         index++
 
@@ -104,8 +124,7 @@ function Home() {
       loading = false
       setLoading(loading)
     }
-
-
+   
   };
 
   const dropdown = () => {
@@ -127,33 +146,45 @@ function Home() {
     setDisplay({ ...display, purpose: "none" })
   }
 
-  const handleFeedPlan = (ev, req) => {
+  const handleFeedPlan = (ev, req, item) => {
     let event = ev.target.checked
     if (event == true) {
       console.log(feedReq.length);
       if (feedReq.length == 0 || feedReq.length <= 2) {
-        feedReq.push(req)
+        feedReq.push(req + 1)
         setFeedReq(feedReq)
-        console.log(feedReq);
+        selectedFeeds.push(item[1])
+        setSelectedFeeds(selectedFeeds)
+        console.log(feedReq,selectedFeeds);
       }
       else {
         ev.target.checked = false
         alert("maximum feeds you can select at a time is 3")
       }
     } else {
-      const update = feedReq.filter(element => element !== req)
+      const update = feedReq.filter(element => element !== req + 1)
+      const feedUpdate = selectedFeeds.filter(element => element !== item[1])
       feedReq = update
       setFeedReq(feedReq)
+      selectedFeeds = feedUpdate
+      setSelectedFeeds(selectedFeeds)
+      console.log(feedReq,selectedFeeds);
     }
 
 
   }
   const preview = async () => {
-
+    setModal("modal")
+    previewContent.Importantnote = []
+    previewContent.Ingredients = {}
+    previewContent.Instructions = []
+    setPreviewContent(previewContent)
     if (feedReq.length !== 0 && feedReq.length <= 3) {
-      const change = show == "none" ? "block" : "none"
-      setShow(change)
-      console.log(show);
+      setShow("block")
+      loadPreview = true
+      setLoadPreview(loadPreview)
+      previewErr = false
+      setPreviewErr(previewErr)
       try {
         const data = {
           animal_type: selectedAnimal,
@@ -162,14 +193,35 @@ function Home() {
         }
         const req = await post_preview(data)
         const res = req.data
-        console.log(res);
+        previewContent.Importantnote = res.Importantnote
+        previewContent.Ingredients = res.Ingredients
+        previewContent.Instructions = res.Instructions
+        setPreviewContent(previewContent)
+        console.log(previewContent, res);
       } catch (error) {
         console.log(error);
+        loadPreview = false
+        setLoadPreview(loadPreview)
+        previewErr = true
+        setPreviewErr(previewErr)
+      } finally {
+        loadPreview = false
+        setLoadPreview(loadPreview)
       }
     } else if (feedReq.length == 0) {
       alert("No feeds picked yet, select the feeds you would like to preview or download")
     }
   }
+
+  const getTargetElement = () => document.getElementById('content-id')
+
+  const DownloadPDF = ()=>{
+    setModal("")
+    setShow("block")
+    generatePDF(getTargetElement, {filename: 'feeds-guide.pdf'})
+    console.log(show,modal);
+  }
+
 
 
   return (
@@ -313,7 +365,7 @@ function Home() {
                               <input
                                 type="checkbox"
                                 id="feedsOption"
-                                onChange={Event => handleFeedPlan(Event, value[0])}
+                                onChange={Event => handleFeedPlan(Event, index,value)}
                               />
                             </td>
                             <td>{value[1]}</td>
@@ -331,7 +383,7 @@ function Home() {
                     <button className='actionbtn' onClick={preview} >Preview Plan</button>
                   </div>
                   <div>
-                    <button style={{ backgroundColor: "#EC0B43" }} className='actionbtn'>Download Plan</button>
+                    <button style={{ backgroundColor: "#EC0B43" }} className='actionbtn' onClick={DownloadPDF}>Download Plan</button>
                   </div>
                 </main>
 
@@ -342,12 +394,9 @@ function Home() {
                 Network Error! check your internet connection and try again
               </div>
         }
-
-        <div className={`modal ${show}`}>
-          <div className="modal-content">
-            hiuhiokh
-          </div>
-        </div>
+      <main>
+      <Preview props={{actions,show,setShow,selectedAnimal,loadPreview,previewContent,selectedFeeds,previewErr,totalProtein,totalFiber,totalEnergy,id:"content-id",modal}}/>
+      </main>
       </Layout>
     </>
   )

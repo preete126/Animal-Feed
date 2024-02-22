@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+Sample_chat_GPT.jsx
 
 # Editor directories and files
 .vscode/*
